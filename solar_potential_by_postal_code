@@ -1,0 +1,11 @@
+## 1_solar_potential_by_postal_code
+SELECT * FROM `bigquery-public-data.sunroof_solar.solar_potential_by_postal_code` LIMIT 1000
+
+## 2_solar_potential_by_postal_code
+SELECT *
+FROM bigquery-public-data.sunroof_solar.solar_potential_by_postal_code
+
+## 3_solar_potential_by_postal_code
+SELECT *
+FROM bigquery-public-data.sunroof_solar.solar_potential_by_postal_code
+WHERE state_name = 'Pennsylvania'
