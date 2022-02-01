@@ -1,0 +1,19 @@
+## Topic: SELECT FROM WHERE
+## SELECT is the section of a query that indicates what data you want SQL to return to you
+## FROM is the section of a query that indicates which table the desired data comes from. 
+## WHERE is the section of a query that indicates any filters you’d like to apply to your dataset
+
+## Practice 1: Find end_station_name
+SELECT end_station_name,
+FROM `bigquery-public-data.london_bicycles.cycle_hire`
+
+## Practice 2: How many bike trips lasted for 20 minutes or longer?
+## use SELECT FROM
+## use COUNT() to count the number of entries
+## use AS to rename the result
+## use WHERE to filter the desired range. use >= for equalt to and more than
+
+SELECT 
+ COUNT(*) AS num_of_trips
+FROM `bigquery-public-data.london_bicycles.cycle_hire`
+WHERE duration >= 1200
