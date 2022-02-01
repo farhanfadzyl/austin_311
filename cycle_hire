@@ -7,6 +7,7 @@
 SELECT end_station_name,
 FROM `bigquery-public-data.london_bicycles.cycle_hire`
 
+
 ## Practice 2: How many bike trips lasted for 20 minutes or longer?
 ## use SELECT FROM
 ## use COUNT() to count the number of entries
@@ -17,3 +18,31 @@ SELECT
  COUNT(*) AS num_of_trips
 FROM `bigquery-public-data.london_bicycles.cycle_hire`
 WHERE duration >= 1200
+
+
+## Practice 3: What are the names of the stations that bike_id 1710 started from?
+## use DISTICNT to reflect just the unique values
+
+SELECT 
+    DISTINCT start_station_name
+FROM `bigquery-public-data.london_bicycles.cycle_hire`
+WHERE bike_id = 1710
+
+
+## Practice 4: How many bike_ids have ended at "Moor Street, Soho"
+## use DISTINCT to reflect just the unique values
+
+SELECT
+    COUNT(DISTINCT bike_id) AS num_of_bike_ended_at_Moor_Street_Soho
+FROM `bigquery-public-data.london_bicycles.cycle_hire`
+WHERE end_station_name = "Moor Street, Soho"
+
+
+## Practice 5: What is the station_id for "Canton Street, Poplar"?
+## use DISTINCT to reflect the unique values
+
+SELECT 
+    DISTINCT start_station_id
+FROM `bigquery-public-data.london_bicycles.cycle_hire`
+WHERE start_station_name = "Canton Street, Poplar"
+
