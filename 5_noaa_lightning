@@ -1,0 +1,11 @@
+## Practice 1
+
+SELECT *
+FROM `bigquery-public-data.noaa_lightning.lightning_2019`
+LIMIT 1000
+
+
+## Practice 2: How many total lightning strikes happened in 2019
+
+SELECT SUM(number_of_strikes)
+FROM `bigquery-public-data.noaa_lightning.lightning_2019`
