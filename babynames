@@ -1,0 +1,7 @@
+##let’s say you were interested in the top five baby names for boys in the United States in 2014. 
+
+SELECT name,count
+FROM `data-analytics-course-339104.5_babynames.1_names_2014`
+WHERE gender = "M"
+ORDER BY count DESC
+LIMIT 5
