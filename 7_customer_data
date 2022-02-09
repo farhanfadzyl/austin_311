@@ -1,0 +1,32 @@
+## Practice 1: using SELECT and FROM
+
+SELECT 
+    name,
+    city
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+
+
+
+## Practice 2: Insert new data into a database
+
+# Start with where we're trying to insert this data, the customer underscore address table.
+INSERT INTO `data-analytics-course-339104.8_customer_data.1_customer_address`
+    # Specify which columns we're adding this data to by typing their names in the parentheses.
+    (customer_id, address, city, state, zipcode, country)
+    
+# Then we'll tell it what values we're putting in.
+VALUES
+    (2645, '333 SQL Road', 'Jackson', 'MI', 49202, 'US')
+
+
+
+## Practice 3: Update database
+
+# Specify the name of the dataset
+UPDATE `data-analytics-course-339104.8_customer_data.1_customer_address`
+
+# let it know what value we're trying to change.
+SET address = '123 New Address'
+
+# also need to tell it where we're making that change specifically so that it doesn't change every address in the table
+WHERE customer_id = 2645
