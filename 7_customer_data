@@ -30,3 +30,61 @@ SET address = '123 New Address'
 
 # also need to tell it where we're making that change specifically so that it doesn't change every address in the table
 WHERE customer_id = 2645
+
+
+
+## Practice 4: Unique values only
+
+SELECT
+    DISTINCT customer_id
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+
+
+
+
+## Practice 5: Cleaning String Variables
+
+# LENGTH: checking the length of the data
+SELECT
+    LENGTH(country) AS letters_in_country
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+
+# Result: some data's length is 3, which shows inconsistency.
+
+
+# Need to find out the inconsistent data
+SELECT country
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+WHERE
+    LENGTH(country) > 2
+
+
+# SUBSTR: Account for this error in our results by using the substring function
+# Pull a list of all the customers in the US, including the two that have USA instead of US
+SELECT
+  DISTINCT customer_id
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+# Filter out only American customers. So we use the substring function after the WHERE clause. 
+# Use the substring function to pull the first two letters of each country so that all of them are consistent and only contain two letters.
+# To use the substring function, tell SQL the column where we found this error, country. 
+# Then we specify which letter to start with. We want SQL to pull the first two letters, so we're starting with the first letter, so we type in 1.
+# Then we need to tell SQL how many letters, including this first letter, to pull. Since we want the first two letters, we need SQL to pull two total letters, so we type in 2. This will give us the first two letters of each country.
+# We want US only, so we'll set this function to equals US.
+WHERE
+  SUBSTR(country,1,2) = 'US'
+
+
+# TRIM(): entries with extra spaces and need to eliminate those extra spaces for consistency
+# Identifying values with extra spaces
+SELECT state, customer_id
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+WHERE
+  LENGTH(state) > 2
+
+
+# Account for this error in our results by using the TRIM function
+# A list of all customer IDs of the customers who live in "OH" for Ohio
+SELECT DISTINCT customer_id
+FROM `data-analytics-course-339104.8_customer_data.1_customer_address`
+WHERE
+  TRIM(state) = 'OH'
