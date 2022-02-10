@@ -1,0 +1,56 @@
+# Advance Cleaning Part 1
+
+# Unable to organize data because it hadn't been formatted correctly. 
+# CAST: to correctly format data. used to convert anything from one data type to another.
+# Sort all purchases by purchase_price in descending order. 
+SELECT purchase_price
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase`
+ORDER BY purchase_price DESC
+# We see that 89.85 shows up at the top with 799.99 below it. But we know that 799.99 is a bigger number than 89.85.
+# The database doesn't recognize that these are numbers, so it didn't sort them that way. 
+# If we go back to the customer_purchase table and take a look at its schema, it says here, the database thinks purchase underscore price is a string, when in fact it is a float, which is a number that contains a decimal.
+# The database doesn't recognize these strings as floats because they haven't been typecast to match that datatype yet. 
+# Typecasting means converting data from one type to another, which is what we'll do with the CAST function. 
+
+# We use the CAST function to replace purchase_price with the new purchase_price that the database recognizes as float instead of string. We start by replacing purchase_price with CAST.
+SELECT CAST(purchase_price AS FLOAT64)
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase`
+ORDER BY CAST(purchase_price AS FLOAT64) DESC
+
+
+# Advanced data-cleaning 2
+
+# Activity 1: CAST
+# look at purchases that occurred during their sales promotion period in December. 
+# Let's write a SQL query that will pull date and purchase_price for all purchases that occurred between December 1st, 2020, and December 31st, 2020. 
+SELECT 
+  date,
+  purchase_price
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase` 
+WHERE 
+  date BETWEEN '2020-12-01' AND '2020-12-31'
+# we can tell SQL to convert the date field into the date data type so we see just the day and not the time.
+
+# To do that, we use the CAST() function again.
+SELECT CAST(date AS date) AS date_only, purchase_price
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase` 
+WHERE 
+  date BETWEEN '2020-12-01' AND '2020-12-31'
+
+
+# Activity 2: CONCAT
+# We need to find another way to separate products by color, so we can tell if customers prefer one color over the others.
+# We'll use CONCAT to produce a unique key that'll help us tell the products apart by color and count them more easily.
+SELECT
+  CONCAT(product_code, product_color) AS new_product_code
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase`
+WHERE product = 'couch'
+
+
+# Activity 3: COALESCE (can be used to return non-null values in a list)
+# We'd prefer SQL to show us the product name, like bed or couch, because it's easier for us to read. But if the product name doesn't exist, we can tell SQL to give us the product_code instead.
+# We want a list of product names, but if names aren't available, then give us the product code. 
+# Here is where we type "COALESCE." then we tell SQL which column to check first, product, and which column to check second if the first column is null, product_code.
+SELECT
+  COALESCE(product, product_code) AS product_info
+FROM `data-analytics-course-339104.a_customer_data_laurens_furniture.1_customer_purchase`
