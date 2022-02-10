@@ -1,0 +1,79 @@
+# Cleaning Data
+
+# Step 1: Inspect the fuel_type column
+# inspect the data in the table so you can find out if there is any specific cleaning that needs to be done
+# According to the data’s description, the fuel_type column should only have two unique string values: diesel and gas. To check and make sure that’s true;
+SELECT
+  DISTINCT fuel_type 
+FROM `data-analytics-course-339104.9_cars.1_car_info` 
+# This confirms that the fuel_type column doesn’t have any unexpected values.
+
+# Step 2: Inspect the length column
+# Next, you will inspect a column with numerical data.
+# The length column should contain numeric measurements of the cars.
+# So you will check that the minimum and maximum lengths in the dataset align with the data description, which states that the lengths in this column should range from 141.1 to 208.1. Run this query to confirm;
+SELECT
+  MIN(length) AS min_length,
+  MAX(length) AS max_length
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+# Results confirmed that 141.1 and 208.1 are the minimum and maximum values respectively in this column. 
+
+# Step 3: Fill in missing data
+# check to see if the num_of_doors column contains null values using this query: 
+SELECT *
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+WHERE num_of_doors IS NULL
+
+# check with manager and use UPDATE function to fill in the blanks
+
+# Step 4: Identify potential errors
+# You can use SELECT DISTINCT to check what values exist in a column. You can run this query to check the num_of_cylinders column:
+SELECT DISTINCT num_of_cylinders
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+# update the identified error
+
+# check the compression_ratio column, should range from 7 to 23
+SELECT
+  MIN(compression_ratio) AS min_compression_ratio,
+  MAX(compression_ratio) AS max_compression_ratio
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+# Notice that this returns a maximum of 70. But you know this is an error because the maximum value in this column should be 23, not 70. So the 70 is most likely a 7.0.
+
+# Run the above query again without the row with 70 to make sure that the rest of the values fall within the expected range of 7 to 23.
+SELECT
+  MIN(compression_ratio) AS min_compression_ratio,
+  MAX(compression_ratio) AS max_compression_ratio
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+WHERE compression_ratio <> 70
+
+# Turns out there is only one row with the erroneous 70 value. So you can delete that row using this query:
+DELETE `data-analytics-course-339104.9_cars.1_car_info`
+WHERE compression_ratio = 70
+
+# Step 5: Ensure consistency
+# Finally, you want to check your data for any inconsistencies that might cause errors.
+# These inconsistencies can be tricky to spot — sometimes even something as simple as an extra space can cause a problem.
+
+# Check the drive_wheels column for inconsistencies by running a query with a SELECT DISTINCT statement: 
+SELECT DISTINCT drive_wheels
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+# It appears that 4wd appears twice in results. However, because you used a SELECT DISTINCT statement to return unique values, this probably means there’s an extra space in one of the 4wd entries that makes it different from the other 4wd
+
+# To check if this is the case, you can use a LENGTH statement to determine the length of how long each of these string variables: 
+SELECT
+  DISTINCT drive_wheels,
+  LENGTH(drive_wheels) AS string_length
+FROM `data-analytics-course-339104.9_cars.1_car_info`
+# According to these results, some instances of the 4wd string have four characters instead of the expected three (4wd has 3 characters).
+
+# In that case, you can use the TRIM function to remove all extra spaces in the drive_wheels column;
+UPDATE `data-analytics-course-339104.9_cars.1_car_info`
+SET
+  drive_wheels = TRIM(drive_wheels)
+
+WHERE TRUE;
+
+# Then, you run the SELECT DISTINCT statement again to ensure that there are only three distinct values in the drive_wheels column:
+SELECT
+  DISTINCT drive_wheels
+FROM `data-analytics-course-339104.9_cars.1_car_info`
